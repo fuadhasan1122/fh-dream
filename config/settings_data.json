@@ -149,20 +149,51 @@
       },
       "new-header": {
         "type": "new-header",
-        "settings": {}
+        "settings": {
+          "logo": "shopify://shop_images/360_F_130362354_O2ZvxotMCfOkyhmHTskIbC7txSBQ3KtI.jpg"
+        }
       },
       "new-banner": {
         "type": "new-banner",
         "settings": {
+          "banner_img": "shopify://shop_images/casual-mens-fashion.jpg",
           "mini_text": "New Arrival",
           "title": "Summer Collection",
           "content": "Award winning products designed for your comfort.",
-          "button_url": "",
+          "button_url": "#",
           "button_label": "SHOP NOW"
         }
       },
       "browse-collection": {
         "type": "browse-collection",
+        "blocks": {
+          "collection_NHedfq": {
+            "type": "collection",
+            "settings": {
+              "collection_handle": "mens",
+              "col_img": "shopify://shop_images/man-poses-in-light-colored-overcoat.jpg"
+            }
+          },
+          "collection_JryjkP": {
+            "type": "collection",
+            "settings": {
+              "collection_handle": "t-shirt",
+              "col_img": "shopify://shop_images/black-and-white-portrait-mens-fashion.jpg"
+            }
+          },
+          "collection_8zya6M": {
+            "type": "collection",
+            "settings": {
+              "collection_handle": "watch",
+              "col_img": "shopify://shop_images/man-adjusts-his-shirt-cuffs-below-watch.jpg"
+            }
+          }
+        },
+        "block_order": [
+          "collection_NHedfq",
+          "collection_JryjkP",
+          "collection_8zya6M"
+        ],
         "settings": {
           "title": "Browse The Range",
           "paragraph": "Elegant, Timeless & functional products",
