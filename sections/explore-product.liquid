@@ -1,0 +1,145 @@
+<section class="explore-product section-{{ section.id }}" style="padding-bottom: {{ section.settings.padding_bottom }}em;">
+  <div class="container">
+    <div class="explore-wrapper {% if section.settings.content_align == 'right' %}flex-reverse{% endif %}">
+      
+      <div class="explore-content">
+        <h6 class="mini-title">{{ section.settings.mini_title }}</h6>
+        <h2 class="main-title">{{ section.settings.text }}</h2>
+        <div class="description">
+          {{ section.settings.content }}
+        </div>
+        {% if section.settings.url != blank %}
+          <a href="{{ section.settings.url }}" class="explore-btn">Explore More</a>
+        {% endif %}
+      </div>
+
+      <div class="explore-image">
+        {% if section.settings.image != blank %}
+          <img src="{{ section.settings.image | img_url: '1000x' }}" alt="{{ section.settings.text }}" loading="lazy">
+        {% else %}
+          {{ 'product-1' | placeholder_svg_tag: 'placeholder-svg' }}
+        {% endif %}
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<style>
+  .explore-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 4rem;
+    padding: 40px 0;
+  }
+
+  .explore-wrapper.flex-reverse {
+    flex-direction: row-reverse;
+  }
+
+  .explore-content, .explore-image {
+    flex: 1;
+  }
+
+  .mini-title {
+    color: #cc4d0f;
+    text-transform: uppercase;
+    font-weight: 700;
+    margin-bottom: 10px;
+  }
+
+  .main-title {
+    font-size: 2.5rem;
+    margin-bottom: 20px;
+    line-height: 1.2;
+  }
+
+  .explore-image img {
+    width: 100%;
+    border-radius: 8px;
+    display: block;
+  }
+
+  .explore-btn {
+    display: inline-block;
+    background: #1a1a1a;
+    color: #fff;
+    padding: 12px 30px;
+    text-decoration: none;
+    margin-top: 20px;
+    transition: 0.3s;
+  }
+
+  .explore-btn:hover {
+    background: #cc4d0f;
+  }
+
+  /* Responsive for Mobile */
+  @media (max-width: 768px) {
+    .explore-wrapper, .explore-wrapper.flex-reverse {
+      flex-direction: column-reverse;
+      gap: 2rem;
+    }
+  }
+</style>
+
+{% schema %}
+{
+  "name": "Explore product",
+  "settings": [
+    {
+      "type": "select",
+      "id": "content_align",
+      "label": "Content Alignment",
+      "options": [
+        { "value": "left", "label": "Image on Right" },
+        { "value": "right", "label": "Image on Left" }
+      ],
+      "default": "left"
+    },
+    {
+      "type": "text",
+      "id": "mini_title",
+      "label": "Mini Title",
+      "default": "Collaboration"
+    },
+    {
+      "type": "text",
+      "id": "text",
+      "label": "Title",
+      "default": "Explore Our Beautiful Product"
+    },
+    {
+      "type": "richtext",
+      "id": "content",
+      "label": "Content",
+      "default": "<p>Share details about your product here.</p>"
+    },
+    {
+      "type": "url",
+      "id": "url",
+      "label": "URL"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Image"
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Padding Bottom",
+      "step": 0.5,
+      "default": 1,
+      "unit": "em",
+      "min": 0,
+      "max": 8
+    }
+  ],
+  "presets": [
+    {
+      "name": "Explore"
+    }
+  ]
+}
+{% endschema %}
