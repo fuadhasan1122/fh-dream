@@ -149,6 +149,26 @@
       },
       "new-header": {
         "type": "new-header",
+        "blocks": {
+          "menu_MeBqtR": {
+            "type": "menu",
+            "settings": {
+              "name": "All Products",
+              "linkurl": "shopify://collections/all"
+            }
+          },
+          "menu_mnwXLB": {
+            "type": "menu",
+            "settings": {
+              "name": "Home",
+              "linkurl": "#"
+            }
+          }
+        },
+        "block_order": [
+          "menu_MeBqtR",
+          "menu_mnwXLB"
+        ],
         "settings": {
           "logo": "shopify://shop_images/360_F_130362354_O2ZvxotMCfOkyhmHTskIbC7txSBQ3KtI.jpg"
         }
@@ -198,6 +218,106 @@
           "title": "Browse The Range",
           "paragraph": "Elegant, Timeless & functional products",
           "padding_top": 20
+        }
+      },
+      "home-animation": {
+        "type": "home-animation",
+        "blocks": {
+          "image_n6XJGW": {
+            "type": "image",
+            "settings": {
+              "product": "antidote-joie-tee-taupe",
+              "review": "4.8",
+              "col_url": ""
+            }
+          },
+          "image_96dqbU": {
+            "type": "image",
+            "settings": {
+              "product": "alex-twill-pant-mariner",
+              "review": "4.8",
+              "col_url": ""
+            }
+          },
+          "image_CzLgyR": {
+            "type": "image",
+            "settings": {
+              "product": "5-pocket-jean",
+              "review": "4.8",
+              "col_url": ""
+            }
+          }
+        },
+        "block_order": [
+          "image_n6XJGW",
+          "image_96dqbU",
+          "image_CzLgyR"
+        ],
+        "settings": {
+          "hide_image": false,
+          "hideprice": false,
+          "title": "Product Category",
+          "p-bottom": 1,
+          "bg-color": "#ffffff"
+        }
+      },
+      "bg-image": {
+        "type": "bg-image",
+        "settings": {
+          "bg_image": "shopify://shop_images/mens-tshirts.jpg",
+          "overlay_opacity": 30,
+          "text_align": "center",
+          "title": "Elegent",
+          "content": "<p>Discover the Latest Fashion Trends for Every Season.</p>",
+          "btn_label": "SHOP NOW",
+          "url": "#"
+        }
+      },
+      "explore-product": {
+        "type": "explore-product",
+        "settings": {
+          "content_align": "left",
+          "mini_title": "Collaboration",
+          "text": "Explore Our Beautiful Product",
+          "content": "<p>Share details about your product here.</p>",
+          "url": "#",
+          "image": "shopify://shop_images/sale-hanger.jpg",
+          "padding_bottom": 1
+        }
+      },
+      "new-footer": {
+        "type": "new-footer",
+        "blocks": {
+          "link_list_WDmLgV": {
+            "type": "link_list",
+            "settings": {
+              "heading": "Quick Links",
+              "menu": "customer-account-main-menu"
+            }
+          },
+          "footer_info_pch6ND": {
+            "type": "footer_info",
+            "settings": {
+              "bio_text": "Your brand story here.",
+              "show_social": true
+            }
+          },
+          "newsletter_Rjy44t": {
+            "type": "newsletter",
+            "settings": {
+              "heading": "Newsletter",
+              "subtext": "Get updates on new drops."
+            }
+          }
+        },
+        "block_order": [
+          "link_list_WDmLgV",
+          "footer_info_pch6ND",
+          "newsletter_Rjy44t"
+        ],
+        "settings": {
+          "bg_color": "#ffffff",
+          "text_color": "#121212"
         }
       }
     },
