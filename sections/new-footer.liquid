@@ -1,0 +1,178 @@
+<footer class="footer-section section-{{ section.id }}">
+  <div class="container">
+    <div class="footer-grid">
+      
+      {% for block in section.blocks %}
+        <div class="footer-column column-{{ block.type }}" {{ block.shopify_attributes }}>
+          
+          {% case block.type %}
+            {% when 'about' %}
+              {% if block.settings.logo != blank %}
+                <img src="{{ block.settings.logo | img_url: '200x' }}" alt="{{ shop.name }}" class="footer-logo">
+              {% else %}
+                <h2 class="footer-heading">{{ shop.name }}</h2>
+              {% endif %}
+              <div class="footer-text">{{ block.settings.text }}</div>
+              
+            {% when 'menu' %}
+              <h3 class="footer-heading">{{ block.settings.heading }}</h3>
+              <ul class="footer-menu">
+                {% for link in linklists[block.settings.menu].links %}
+                  <li><a href="{{ link.url }}">{{ link.title }}</a></li>
+                {% endfor %}
+              </ul>
+
+            {% when 'newsletter' %}
+              <h3 class="footer-heading">{{ block.settings.heading }}</h3>
+              <p>{{ block.settings.text }}</p>
+              {% form 'customer', id: 'footer-newsletter' %}
+                <input type="hidden" name="contact[tags]" value="newsletter">
+                <div class="newsletter-input-group">
+                  <input type="email" name="contact[email]" placeholder="Your email..." required>
+                  <button type="submit">Subscribe</button>
+                </div>
+              {% endform %}
+          {% endcase %}
+          
+        </div>
+      {% endfor %}
+
+    </div>
+
+    <div class="footer-bottom">
+      <p>&copy; {{ 'now' | date: '%Y' }} {{ shop.name }}. All rights reserved.</p>
+      <div class="payment-icons">
+        {{ shop.enabled_payment_types | payment_type_svg_tag: class: 'icon icon--full-color' }}
+      </div>
+    </div>
+  </div>
+</footer>
+
+
+
+<style>
+  .footer-section {
+    background-color: {{ section.settings.bg_color }};
+    color: {{ section.settings.text_color }};
+    padding: 60px 0 20px;
+    border-top: 1px solid #eee;
+  }
+
+  .footer-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 40px;
+    margin-bottom: 40px;
+  }
+
+  .footer-heading {
+    font-size: 18px;
+    font-weight: 700;
+    margin-bottom: 20px;
+    text-transform: uppercase;
+    color: {{ section.settings.text_color }};
+  }
+
+  .footer-menu {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .footer-menu li { margin-bottom: 10px; }
+
+  .footer-menu a {
+    text-decoration: none;
+    color: inherit;
+    opacity: 0.8;
+    transition: opacity 0.3s;
+  }
+
+  .footer-menu a:hover { opacity: 1; color: #cc4d0f; }
+
+  .footer-logo { max-width: 150px; margin-bottom: 15px; }
+
+  /* Newsletter Styling */
+  .newsletter-input-group {
+    display: flex;
+    margin-top: 15px;
+  }
+
+  .newsletter-input-group input {
+    flex: 1;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px 0 0 4px;
+  }
+
+  .newsletter-input-group button {
+    background: #1a1a1a;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 0 4px 4px 0;
+    cursor: pointer;
+  }
+
+  .footer-bottom {
+    border-top: 1px solid rgba(0,0,0,0.1);
+    padding-top: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    font-size: 14px;
+  }
+
+  @media (max-width: 768px) {
+    .footer-bottom { flex-direction: column; text-align: center; gap: 20px; }
+  }
+</style>
+
+{% schema %}
+{
+  "name": "New Footer",
+  "settings": [
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text Color",
+      "default": "#121212"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "about",
+      "name": "About Us",
+      "limit": 1,
+      "settings": [
+        { "type": "image_picker", "id": "logo", "label": "Footer Logo" },
+        { "type": "richtext", "id": "text", "label": "About Text", "default": "<p>Your brand story goes here.</p>" }
+      ]
+    },
+    {
+      "type": "menu",
+      "name": "Quick Links",
+      "settings": [
+        { "type": "text", "id": "heading", "label": "Heading", "default": "Navigation" },
+        { "type": "link_list", "id": "menu", "label": "Menu" }
+      ]
+    },
+    {
+      "type": "newsletter",
+      "name": "Newsletter",
+      "limit": 1,
+      "settings": [
+        { "type": "text", "id": "heading", "label": "Heading", "default": "Newsletter" },
+        { "type": "text", "id": "text", "label": "Subtext", "default": "Join our list for exclusive offers." }
+      ]
+    }
+  ]
+}
+{% endschema %}
