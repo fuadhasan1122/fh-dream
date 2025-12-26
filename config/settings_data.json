@@ -288,18 +288,19 @@
       "new-footer": {
         "type": "new-footer",
         "blocks": {
+          "footer_info_pch6ND": {
+            "type": "footer_info",
+            "settings": {
+              "footerlogo": "shopify://shop_images/360_F_130362354_O2ZvxotMCfOkyhmHTskIbC7txSBQ3KtI.jpg",
+              "bio_text": "An organic gardening lifestyle\nExploring the benefits of remote working\nInsight into the power of automation",
+              "show_social": true
+            }
+          },
           "link_list_WDmLgV": {
             "type": "link_list",
             "settings": {
               "heading": "Quick Links",
               "menu": "customer-account-main-menu"
-            }
-          },
-          "footer_info_pch6ND": {
-            "type": "footer_info",
-            "settings": {
-              "bio_text": "Your brand story here.",
-              "show_social": true
             }
           },
           "newsletter_Rjy44t": {
@@ -311,13 +312,13 @@
           }
         },
         "block_order": [
-          "link_list_WDmLgV",
           "footer_info_pch6ND",
+          "link_list_WDmLgV",
           "newsletter_Rjy44t"
         ],
         "settings": {
-          "bg_color": "#ffffff",
-          "text_color": "#121212"
+          "bg_color": "#121212",
+          "text_color": "#ffffff"
         }
       }
     },
