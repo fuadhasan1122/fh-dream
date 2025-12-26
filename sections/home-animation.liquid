@@ -2,131 +2,215 @@
 <script src="{{ 'flickity.pkgd.min.js' | asset_url }}" defer></script>
 
 <div class="home-animation-slider section-{{ section.id }}" style="background-color: {{ section.settings.bg_color }}; margin-top: {{ section.settings.p_bottom }}em;">
-    <div class="container">
-        <div class="section-header">
-            <h2>{{ section.settings.title }}</h2>
-        </div>
-
-        <div class="main-carousel" data-flickity='{ "cellAlign": "left", "contain": true, "freeScroll": true, "prevNextButtons": true, "pageDots": false }'>
-            {% for block in section.blocks %}
-                {% assign product = all_products[block.settings.product] %}
-                <div class="carousel-cell product-card">
-                    <a href="{{ block.settings.col_url | default: product.url }}">
-                        <div class="product-image">
-                            {% if block.settings.gif != blank %}
-                                <img src="{{ block.settings.gif | img_url: 'master' }}" alt="{{ product.title }}">
-                            {% elsif product.featured_image != blank %}
-                                <img src="{{ product.featured_image | img_url: 'master' }}" alt="{{ product.title }}">
-                            {% endif %}
-                        </div>
-                        
-                        <div class="product-info">
-                            <span class="rating">⭐ {{ block.settings.review }}</span>
-                            <h3>{{ product.title | default: "Product Title" }}</h3>
-                            
-                            {% unless section.settings.hideprice %}
-                                <p class="price">{{ product.price | money }}</p>
-                            {% endunless %}
-                        </div>
-                    </a>
-                </div>
-            {% endfor %}
-        </div>
+  <div class="container">
+    <div class="section-header">
+      <h2>{{ section.settings.title }}</h2>
     </div>
+
+    <div class="main-carousel" data-flickity='{ "cellAlign": "left", "contain": true, "freeScroll": true, "prevNextButtons": true, "pageDots": false }'>
+      {% for block in section.blocks %}
+        {% assign product = all_products[block.settings.product] %}
+        <div class="carousel-cell product-card">
+          <a href="{{ block.settings.col_url | default: product.url }}">
+            <div class="product-image">
+              {% if block.settings.gif != blank %}
+                <img src="{{ block.settings.gif | img_url: 'master' }}" alt="{{ product.title }}">
+              {% elsif product.featured_image != blank %}
+                <img src="{{ product.featured_image | img_url: 'master' }}" alt="{{ product.title }}">
+              {% endif %}
+            </div>
+
+            <div class="product-info">
+              <span class="rating">⭐ {{ block.settings.review }}</span>
+              <h3>{{ product.title | default: "Product Title" }}</h3>
+
+              {% unless section.settings.hideprice %}
+                <p class="price">{{ product.price | money }}</p>
+              {% endunless %}
+            </div>
+          </a>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
 </div>
 
-<style>
-    .home-animation-slider { padding: 40px 0; }
-    .section-header { text-align: left; margin-bottom: 30px; }
-    .carousel-cell { width: 30%; margin-right: 20px; }
-    .product-image img { width: 100%; height: auto; border-radius: 8px; }
-    .product-info h3 { font-size: 16px; margin: 10px 0; color: #000; }
-    .rating { font-size: 12px; color: #777; }
-    
-    @media screen and (max-width: 768px) {
-        .carousel-cell { width: 70%; }
-    }
-</style>
 
 {% schema %}
-{
+  {
     "name": "Home Animation Section",
     "class": "design-product-section",
     "max_blocks": 8,
     "settings": [
-        {
-            "type": "checkbox",
-            "id": "hide_image",
-            "label": "Hide Empty Image",
-            "default": false
-        },
-        {
-            "type": "checkbox",
-            "id": "hideprice",
-            "label": "Hide Price",
-            "default": false
-        },
-        {
-            "type": "text",
-            "id": "title",
-            "label": "Title",
-            "default":"Product Category"
-        },
-        {
-            "type": "range",
-            "id": "p-bottom",
-            "label": "Margin Top",
-            "min": 0,
-            "step": 0.5,
-            "max": 8,
-            "unit": "em",
-            "default": 1
-        },
-        {
-            "type": "color",
-            "id": "bg-color",
-            "label": "Background Color",
-            "default": "#ffffff"
-        }
+      {
+        "type": "checkbox",
+        "id": "hide_image",
+        "label": "Hide Empty Image",
+        "default": false
+      },
+      {
+        "type": "checkbox",
+        "id": "hideprice",
+        "label": "Hide Price",
+        "default": false
+      },
+      {
+        "type": "text",
+        "id": "title",
+        "label": "Title",
+        "default": "Product Category"
+      },
+      {
+        "type": "range",
+        "id": "p-bottom",
+        "label": "Margin Top",
+        "min": 0,
+        "step": 0.5,
+        "max": 8,
+        "unit": "em",
+        "default": 1
+      }, {
+        "type": "color",
+        "id": "bg-color",
+        "label": "Background Color",
+        "default": "#ffffff"
+      }
     ],
     "blocks": [
-        {
-            "type": "image",
-            "name": "Product Column",
-            "settings": [
-                {
-                    "type": "product",
-                    "id": "product",
-                    "label": "Choose product"
-                },
-                {
-                    "type": "text",
-                    "id": "review",
-                    "label": "Reviews",
-                    "default": "4.8"
-                },
-                {
-                     "type": "image_picker",
-                     "id": "gif",
-                     "label": "Custom Image/GIF"
-                },
-                {
-                    "type": "url",
-                    "id": "col_url",
-                    "label": "Link Url Override"
-                }
-            ]
-        }
+      {
+        "type": "image",
+        "name": "Product Column",
+        "settings": [
+          {
+            "type": "product",
+            "id": "product",
+            "label": "Choose product"
+          }, {
+            "type": "text",
+            "id": "review",
+            "label": "Reviews",
+            "default": "4.8"
+          }, {
+            "type": "image_picker",
+            "id": "gif",
+            "label": "Custom Image/GIF"
+          }, {
+            "type": "url",
+            "id": "col_url",
+            "label": "Link Url Override"
+          }
+        ]
+      }
     ],
     "presets": [
-        {
-            "name": "Home Animation Section",
-            "blocks": [
-                 {"type": "image"},
-                 {"type": "image"},
-                 {"type": "image"}
-            ]
-        }
+      {
+        "name": "Home Animation Section",
+        "blocks": [
+          {
+            "type": "image"
+          }, {
+            "type": "image"
+          }, {
+            "type": "image"
+          }
+        ]
+      }
     ]
-}
+  }
 {% endschema %}
+<style>
+  .home-animation-slider {
+    padding: 60px 0;
+    overflow: hidden;
+  }
+
+  .section-header h2 {
+    font-size: 2.2rem;
+    font-weight: 700;
+    margin-bottom: 40px;
+    color: #1a1a1a;
+    letter-spacing: -0.5px;
+  }
+
+  /* Carousel Cell Spacing */
+  .carousel-cell {
+    width: 28%;
+    margin-right: 30px;
+    background: #fff;
+    border-radius: 12px;
+    transition: transform 0.3s ease;
+  }
+
+  /* Product Card Styling */
+  .product-card a {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+  }
+
+  .product-image {
+    aspect-ratio: 4 / 5;
+    overflow: hidden;
+    border-radius: 12px;
+    background-color: #f7f7f7;
+    margin-bottom: 15px;
+  }
+
+  .product-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+  }
+
+  /* Hover Effects */
+  .product-card:hover img {
+    transform: scale(1.08);
+  }
+
+  .product-info {
+    padding: 10px 5px;
+  }
+
+  .rating {
+    display: block;
+    font-size: 13px;
+    color: #eb9c00;
+    margin-bottom: 5px;
+    font-weight: 600;
+  }
+
+  .product-info h3 {
+    font-size: 18px;
+    margin: 5px 0;
+    font-weight: 600;
+    color: #222;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .price {
+    font-size: 16px;
+    font-weight: 700;
+    color: #cc4d0f;
+    margin: 0;
+  }
+
+  /* Flickity Button Customization */
+  .flickity-prev-next-button {
+    background: #fff;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  }
+  
+  .flickity-prev-next-button:hover { background: #1a1a1a; color: #fff; }
+
+  /* Mobile Styling */
+  @media screen and (max-width: 768px) {
+    .carousel-cell {
+      width: 65%;
+      margin-right: 15px;
+    }
+    .section-header h2 { font-size: 1.6rem; }
+  }
+</style>
