@@ -1,0 +1,96 @@
+<link rel="stylesheet" href="{{flickity.min.css |  asset_url}}">
+<script src="{{flickity.pkgd.min.js | asset_url}}"></script>
+
+
+{% schema %}
+{
+    "name": "Home Animation Section",
+    "class": "design-product-section",
+    "max_blocks": 8,
+    "settings": [
+        {
+            "type": "checkbox",
+            "id": "hide-image",
+            "label": "Hide Empty Image",
+            "default": false
+        },
+        {
+            "type": "checkbox",
+            "id": "hideprice",
+            "label": "Hide Price",
+            "default": false,
+            "info": "Hide the price for every colum"
+
+        },
+        {
+            "type": "text",
+            "id": "title",
+            "label": "Title",
+            "default":"Product Category"
+        },
+        {
+            "type": "text",
+            "id": "button-text",
+            "label": "Button Label",
+            "default": "View More"
+        },
+        {
+           "type": "range",
+           "id": "p-bottom",
+           "label": "Margin Top",
+           "min": 0,
+           "step": 0.5,
+           "max":8,
+           "unit": "em",
+           "default": 1
+        },
+        {
+            "type": "color",
+            "id": "bg-color",
+            "label": "Background Color",
+            "default": "#fff"
+        }
+        ],
+        "blocks": [
+            {
+                "type": "image",
+                "name": "column",
+                "settings": [
+                    {
+                        "type": "product",
+                        "id": "product",
+                        "label": "Choose product"
+                    },
+                    {
+                        "type": "text",
+                        "id": "review",
+                        "label": "Reviews",
+                        "default": "4.8"
+                    },
+                    {
+                         "type": "image_picker",
+                         "id": "gif",
+                         "label": "Image"
+                    },
+                    {
+                        "type": "url",
+                        "id": "col_url",
+                        "label": "Link Url"
+                    }
+                ]
+            }
+        ],
+        "presets": [
+            {
+                "name": "Home Animation Section",
+                "category": "Product",
+                "blocks": [
+                     {"type": "image"},
+                      {"type": "image"},
+                       {"type": "image"}
+
+                ]
+            }
+        ]
+}
+{% endschema %}
