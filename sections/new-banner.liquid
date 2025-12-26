@@ -1,0 +1,169 @@
+<div class="home-banner section-{{ section.id }}">
+    {% if section.settings.banner_img != blank %}
+        <img src="{{ section.settings.banner_img | img_url: 'master' }}" alt="{{ section.settings.title }}" class="banner-bg-img">
+    {% else %}
+        {{ 'lifestyle-1' | placeholder_svg_tag: 'banner-bg-img placeholder-svg' }}
+    {% endif %}
+    
+    <div class="container banner-container">
+        <div class="banner-content">
+            {% if section.settings.mini_text != blank %}
+                <h6 class="mini-text">{{ section.settings.mini_text }}</h6>
+            {% endif %}
+            
+            {% if section.settings.title != blank %}
+                <h1 class="main-title">{{ section.settings.title }}</h1>
+            {% endif %}
+            
+            {% if section.settings.content != blank %}
+                <p class="description">{{ section.settings.content }}</p>
+            {% endif %}
+
+            {% if section.settings.button_url != blank %}
+                <a href="{{ section.settings.button_url }}" class="banner-btn">
+                    {{ section.settings.button_label | default: 'SHOP NOW' }}
+                </a>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+{% stylesheet %}
+    .home-banner {
+        position: relative;
+        width: 100%;
+        min-height: 600px; /* Adjust height as needed */
+        display: flex;
+        align-items: center;
+        overflow: hidden;
+    }
+
+    .banner-bg-img {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        z-index: 1;
+    }
+
+    .placeholder-svg {
+        background: #f4f4f4;
+    }
+
+    .banner-container {
+        position: relative;
+        z-index: 2;
+        width: 100%;
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 20px;
+    }
+
+    .banner-content {
+        max-width: 500px;
+        display: flex;
+        flex-direction: column; /* This fixes the side-by-side issue */
+        align-items: flex-start;
+        text-align: left;
+    }
+
+    .mini-text {
+        font-size: 14px;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        margin-bottom: 1px;
+        color: #121212;
+    }
+
+    .main-title {
+        font-size: clamp(2rem, 5vw, 4rem); /* Responsive font size */
+        line-height: 1.1;
+        margin: 0 0 15px 0;
+        color: #121212;
+    }
+
+    .description {
+        font-size: 16px;
+        font-weight: 500;
+        line-height: 1.5;
+        margin: 0;
+        color: #333;
+    }
+
+    .banner-btn {
+        display: inline-block;
+        background: #cc4d0f;
+        color: #ffffff;
+        text-decoration: none;
+        padding: 15px 35px;
+        margin-top: 30px;
+        font-weight: 600;
+        font-size: 14px;
+        transition: opacity 0.3s ease;
+    }
+
+    .banner-btn:hover {
+        opacity: 0.9;
+    }
+
+    /* Mobile Responsive */
+    @media (max-width: 768px) {
+        .home-banner {
+            min-height: 450px;
+        }
+        .banner-content {
+            text-align: center;
+            align-items: center;
+            margin: 0 auto;
+        }
+    }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Home Banner",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "banner_img",
+      "label": "Banner Image"
+    },
+    {
+      "type": "text",
+      "id": "mini_text",
+      "label": "Mini Text",
+      "default": "New Arrival"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Title",
+      "default": "Summer Collection"
+    },
+    {
+      "type": "textarea",
+      "id": "content",
+      "label": "Content",
+      "default": "Award winning products designed for your comfort."
+    },
+    {
+      "type": "url",
+      "id": "button_url",
+      "label": "Button Link"
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Button Label",
+      "default": "SHOP NOW"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Home Banner"
+    }
+  ]
+}
+{% endschema %}

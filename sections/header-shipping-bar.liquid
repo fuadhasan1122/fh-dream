@@ -1,0 +1,43 @@
+<div class="header-shipping-bar">
+    <div class="container">
+        {{ section.settings.shipping-text }}
+    </div>
+</div>
+
+ <style>
+    .header-shipping-bar{
+        color: {{ section.settings.text-color }};
+        text-align: center;
+        padding: 8px;
+        font-size: 14px;
+        background: {{section.settings.bg-color}};
+        
+    }
+ </style>
+
+{% schema %}
+{
+    "name": "shipping Bar",
+    "settings": [
+        {
+            "type": "text",
+            "id": "shipping-text",
+            "label": "Title",
+            "default": "Free shipping on All Order!!!"
+        },
+        {
+            "type": "color",
+            "id": "bg-color",
+            "label": "Background color",
+            "default": "#0c2f38" 
+        },
+        {
+            "type": "color",
+            "id": "text-color",
+            "label": "Text color",
+            "default": "#222"
+        }
+        
+        ]
+}
+{% endschema %}

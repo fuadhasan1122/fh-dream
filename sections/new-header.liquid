@@ -1,0 +1,261 @@
+<div class="container">
+    <div class="new-header">
+        <div class="logo-menu">
+            <a href="/" class="logoimg">
+                <img src="{{section.settings.logo |  img_url: '180x'}}" alt="Dreami logo">
+            </a>
+            <div class="links">
+                {% for block in section.blocks %}
+                    <a href="{{block.settings.linkurl}}">{{block.settings.name}}</a>
+                    {%endfor%}
+            </div>
+        </div>
+        <div class="search">
+            <form action="/search" method="get" role="search" id="searchForm">
+               <input type="search" name="q" id=" searchinput" aria-label="Search out site" placeholder="Search" class="search-header__input">
+               <button type="submit" class="search-header__submit">
+                <img src="{{ 'search-icon.png' |  asset_url }}" alt="search icon">
+
+               </button>
+            </form>
+
+            <div id="searchResults"></div>
+        </div>
+        <div class="icons">
+            <a  class="account" href="/account/login">
+            <img width="24" src="{{ 'user.png' |  asset_url }}" alt="login user">
+            </a>
+            <a  class="cart" href="/cart" class="cart toggle-sidecart">
+               <span class="js-cartcount">{{cart.item_count}}</span>
+               <img width="24" src="{{'cart.png'|  asset_img_url}}" alt="login user">
+            </a>
+        </div>
+    </div>
+</div>
+
+<style>
+    body:not(.index) .top-new-header{
+        border-bottom: 1px solid #eee;
+    }
+
+    .new-header{
+        display: flex;
+        justify-content: space-between;
+        gap: 1em;
+        align-items: center;
+        padding: 1em 0;
+    }
+
+    .new-header img{
+        object-fit: cover;
+        max-width: 120px;
+        width: 100%;
+        height: auto;
+
+    }
+
+    .toggle-sidebar{
+        position: relative;
+
+    }
+    a.logoimg{
+        text-align: center;
+
+    }
+
+    .new-header .search{
+        flex: 2;
+        text-align: center;
+
+
+    }
+
+    .search form{
+        border: 1px solid #eee;
+        border-radius: 40px;
+        overflow: hidden;
+        
+
+    }
+
+    .search input{
+        width: 100%;
+        padding: 1em 0.5em 1em 0.5em;
+        background: #f5f5f5;
+        border: transparent;
+    }
+
+    .search button.search-header__submit{
+        position: absolute;
+        cursor: pointer;
+    border-radius: 50%;
+    width: 34px;
+    height: 34px;
+    top: 50%;
+    transform: translateY(-50%);
+    right: 2%;
+    background: #333;
+
+    }
+
+    .new-header .icons{
+        display: grid;
+        grid-auto-flow: column;
+        justify-content: flex-end;
+        align-items: center;
+        gap: 1.5em;
+    }
+
+    .new-header .icons a.cart img{
+        height: 24px;
+        width: 24px;
+       }
+
+    .new-header .icons a.account img{
+        height: 24px;
+        width: 24px;
+
+    } 
+    .js-cartcount{
+        background: #333;
+        color: #fff;
+        width: 14px;
+        width: 14px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 10px;
+        border-radius: 50%;
+        position: absolute;
+        top:-0.5 ;
+    } 
+    .logo-menu{
+        display: flex;
+        flex: 1;
+        max-width: 530px;
+        width: 100%;
+        justify-content: left;
+        gap: 1em;
+        align-items: center;
+    } 
+    .logo-menu a{
+        text-decoration: none;
+        font-size: 14px;
+        font-weight: 600;
+        letter-spacing: 0.1px;
+        color: #000;
+        
+        
+
+    }
+
+    .logo-menu .links{
+        display: flex;
+        align-items: center;
+        gap: 1em;
+    }
+    .icons a{
+        text-decoration: none;
+        color: #000;
+    }
+
+    .new-header .search{
+        position: relative;
+        z-index: 2;
+        max-width: 340px;
+        width: 100%;
+    }
+
+    .new-header .search #searchResults{
+        position: absolute;
+        background: #fff;
+        box-shadow: 0 0 5px rgba(0,0,0,0.25);
+        width: 100%;
+    }
+    .result-heading{
+        padding: 2em 0;
+        text-align: center;
+    }
+    .new-header .search #searchResults:empty{
+        display: none;
+    }
+
+    .new-header.search #searchResults p.no-result{
+        padding: 1em 1em 0.5em;
+    }
+    .new-header.search #searchResults: :focus-visible{
+        outline: none;
+        box-shadow: none;
+    }
+    #searchresults .product-card{
+        display: flex;
+        justify-content: flex-start;
+        padding: 1em;
+    }
+
+    #searchResults .product-card:not(:last-of-type){
+        border-bottom: 1px solid #eee;
+    }
+
+    #searchResults .product-card:last-of-type{
+        padding-bottom: 0.5em;
+    }
+
+    #searchResults .product-img{
+        width: 70px;
+        height: 70px;
+    }
+
+    #searchResults .grid-content{
+        display: flex;
+        flex-flow: column;
+        gap: 4px;
+        align-items: flex-start;
+        text-align: left;
+
+    }
+    #searchResults .collection-price{
+        justify-content: flex-start;
+
+    }
+    
+    #searchResults p{
+        margin:0 0 4px ;
+        font-weight: 600;
+    }
+
+
+</style>
+
+
+{%  schema  %} 
+  {
+    "name": "Header",
+    "class": "top-new-header",
+    "settings": [
+        {
+            "type": "image_picker",
+            "id": "logo",
+            "label": "Logo Image"
+        }
+    ],
+    "blocks": [
+        {
+            "name": "header menu",
+            "type": "menu",
+            "settings": [
+                {
+                    "type":"text",
+                    "id": "name",
+                    "label": "Menu name" 
+                },{
+                    "type": "url",
+                    "id": "linkurl",
+                    "label": "Link url"
+                }
+            ]
+        }
+    ]
+  }
+
+{% endschema %}
