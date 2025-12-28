@@ -1,5 +1,21 @@
 <div class="banner">
     <div class="container">
-        <h1>{{}}</h1>
+        <h1>{{collection.title}}</h1>
+        <p>{{collection.description}}</p>
+
     </div>
 </div>
+
+<style>
+     .banner{
+        background: url({{collection.featured_image | img_url: '1200x'}});
+        background-size: cover;
+        background-position: 0 34%;
+        padding: 6em 1em
+    }
+
+     .banner p{
+        color: #e5de0e;
+    }
+
+</style>

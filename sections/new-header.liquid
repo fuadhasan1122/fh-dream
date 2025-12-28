@@ -2,32 +2,46 @@
     <div class="new-header">
         <div class="logo-menu">
             <a href="/" class="logoimg">
-                <img src="{{section.settings.logo |  img_url: '180x'}}" alt="Dreami logo">
+                {% if section.settings.logo != blank %}
+                    <img src="{{ section.settings.logo | img_url: '180x' }}" alt="{{ shop.name }}">
+                {% else %}
+                    <span style="font-size: 20px; font-weight: bold;">{{ shop.name }}</span>
+                {% endif %}
             </a>
             <div class="links">
+                {%- comment -%} WAY 1: Pull from the Selected Main Menu {%- endcomment -%}
+                {% if section.settings.main_menu != blank %}
+                    {% for link in linklists[section.settings.main_menu].links %}
+                        <a href="{{ link.url }}">{{ link.title }}</a>
+                    {% endfor %}
+                {% endif %}
+
+                {%- comment -%} WAY 2: Pull from Individual Blocks {%- endcomment -%}
                 {% for block in section.blocks %}
-                    <a href="{{block.settings.linkurl}}">{{block.settings.name}}</a>
-                    {%endfor%}
+                    {% if block.settings.name != blank %}
+                        <a href="{{ block.settings.linkurl }}" {{ block.shopify_attributes }}>
+                            {{ block.settings.name }}
+                        </a>
+                    {% endif %}
+                {% endfor %}
             </div>
         </div>
         <div class="search">
             <form action="/search" method="get" role="search" id="searchForm">
-               <input type="search" name="q" id=" searchinput" aria-label="Search out site" placeholder="Search" class="search-header__input">
+               <input type="search" name="q" id="searchinput" aria-label="Search our site" placeholder="Search" class="search-header__input">
                <button type="submit" class="search-header__submit">
-                <img src="{{ 'search-icon.png' |  asset_url }}" alt="search icon">
-
+                <img src="{{ 'search-icon.png' | asset_url }}" alt="search icon">
                </button>
             </form>
-
             <div id="searchResults"></div>
         </div>
         <div class="icons">
-            <a  class="account" href="/account/login">
-            <img width="24" src="{{ 'user.png' |  asset_url }}" alt="login user">
+            <a class="account" href="/account/login">
+                <img width="24" height="24" src="{{ 'user.png' | asset_url }}" alt="login user">
             </a>
-            <a  class="cart" href="/cart" class="cart toggle-sidecart">
-               <span class="js-cartcount">{{cart.item_count}}</span>
-               <img width="24" src="{{'cart.png'|  asset_img_url}}" alt="login user">
+            <a href="/cart" class="cart toggle-sidecart" style="position: relative; display: inline-block;">
+               <span class="js-cartcount">{{ cart.item_count }}</span>
+               <img width="24" height="24" src="{{ 'cart.png' | asset_url }}" alt="cart">
             </a>
         </div>
     </div>
@@ -228,34 +242,47 @@
 </style>
 
 
-{%  schema  %} 
-  {
-    "name": "Header",
-    "class": "top-new-header",
-    "settings": [
+{% schema %}
+{
+  "name": "Header",
+  "class": "top-new-header",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "logo",
+      "label": "Logo Image"
+    },
+    {
+      "type": "link_list",
+      "id": "main_menu",
+      "label": "Choose Main Menu",
+      "info": "This pulls a navigation menu from Online Store > Navigation",
+      "default": "main-menu"
+    }
+  ],
+  "blocks": [
+    {
+      "name": "Custom Link Block",
+      "type": "menu",
+      "settings": [
         {
-            "type": "image_picker",
-            "id": "logo",
-            "label": "Logo Image"
-        }
-    ],
-    "blocks": [
+          "type": "text",
+          "id": "name",
+          "label": "Menu name"
+        },
         {
-            "name": "header menu",
-            "type": "menu",
-            "settings": [
-                {
-                    "type":"text",
-                    "id": "name",
-                    "label": "Menu name" 
-                },{
-                    "type": "url",
-                    "id": "linkurl",
-                    "label": "Link url"
-                }
-            ]
+          "type": "url",
+          "id": "linkurl",
+          "label": "Link url"
         }
-    ]
-  }
-
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Custom Header",
+      "blocks": []
+    }
+  ]
+}
 {% endschema %}

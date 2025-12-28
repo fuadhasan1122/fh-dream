@@ -1,0 +1,42 @@
+<div class="collection-filter">
+    <div class="filter">
+        <div class="switch">
+            <button type="button" class="twocol active">
+                <img src="{{two-layout.png | asset_url}}" alt="two column" class="twocol">
+            </button>
+
+            <button type="button" class="defaultcol">
+                <img src="{{default-layout.png |  asset_url}}" alt="default column" class="defaultcol">
+            </button>
+
+              <button type="button" class="singlecol">
+                <img src="{{singlet-layout.png |  asset_url}}" alt="single column" class="singlecol">
+            </button>
+
+        </div>
+        <div class="total-product">
+            <span>{{collection.all_products_count}} {{collection.all_products_count |  pluralize: 'product', 'products' }}</span>
+        </div>
+        <div class="sort-by">
+            {%-  assign  sort_by = collection.sort_by | default: collection.default_sort_by  %}
+            <span class="dropdown-filter">
+                {%- if sort_by == 'manual'-%}
+                    Featured
+                    {%- else -%}
+                        {{sort_by |replace: '-', ' ' }}
+                        {%-endif -%}
+            </span>
+
+            <ul class="hide">
+                {% for option in collection.sort_options %}
+                    <a href="?sort_by={{option.value}}">
+                        <li class="liclass_{% if collection.sort_by == option.value %}active{% endif %}">
+                        {{option.name}}
+                        </li>
+                    </a>
+                    {%endfor%}
+
+            </ul>
+        </div>
+    </div>
+</div>

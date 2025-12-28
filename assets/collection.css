@@ -1,0 +1,13 @@
+:root{
+    --light-grey: #cfcfcf
+}
+.banner{
+    text-align: center;
+}
+.banner p{
+    font-size: 14px;
+}
+
+.banner h1{
+    color: white;
+}
