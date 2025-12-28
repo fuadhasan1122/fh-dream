@@ -1,174 +1,280 @@
-<footer class="site-footer" style="background-color: {{ section.settings.bg_color }}; color: {{ section.settings.text_color }};">
-  <div class="container">
-    <div class="footer-grid">
-      {% for block in section.blocks %}
-        <div class="footer-block column-{{ block.type }}" {{ block.shopify_attributes }}>
-          
-          {% case block.type %}
-            {% when 'footer_info' %}
-              <div class="footer-brand">
-                {% if block.settings.footerlogo != blank %}
-                  <img src="{{ block.settings.footerlogo | img_url: '300x' }}" alt="{{ block.settings.name }}" class="footer-logo">
-                {% else %}
-                  <h2 class="footer-logo-text">{{ shop.name }}</h2>
-                {% endif %}
-                <p class="footer-bio">{{ block.settings.bio_text }}</p>
-                
-                {% if block.settings.show_social %}
-                  <div class="footer-social-icons">
-                    {% if settings.social_facebook_link != blank %}<a href="{{ settings.social_facebook_link }}">FB</a>{% endif %}
-                    {% if settings.social_instagram_link != blank %}<a href="{{ settings.social_instagram_link }}">IG</a>{% endif %}
-                    {% if settings.social_twitter_link != blank %}<a href="{{ settings.social_twitter_link }}">TW</a>{% endif %}
-                  </div>
-                {% endif %}
-              </div>
-
-            {% when 'link_list' %}
-              <h3 class="footer-title">{{ block.settings.heading }}</h3>
-              <ul class="footer-links">
-                {% for link in linklists[block.settings.menu].links %}
-                  <li><a href="{{ link.url }}">{{ link.title }}</a></li>
-                {% endfor %}
-              </ul>
-
-            {% when 'newsletter' %}
-              <h3 class="footer-title">{{ block.settings.heading }}</h3>
-              <p>{{ block.settings.subtext }}</p>
-              {% form 'customer' %}
-                <div class="footer-newsletter-form">
-                  <input type="email" name="contact[email]" placeholder="email@example.com" required>
-                  <button type="submit">Join</button>
-                </div>
-              {% endform %}
-          {% endcase %}
-          
-        </div>
-      {% endfor %}
-    </div>
-
-    <div class="footer-bottom">
-      <div class="copyright">
-        &copy; {{ 'now' | date: "%Y" }}, {{ shop.name | link_to: routes.root_url }}
-      </div>
-      <div class="payment-methods">
-        {{ shop.enabled_payment_types | payment_type_svg_tag: class: 'payment-icon' }}
-      </div>
-    </div>
-  </div>
-</footer>
-
-
-
-<style>
-  .site-footer {
-    padding: 80px 0 30px;
-    border-top: 1px solid rgba(0,0,0,0.08);
-  }
-  .footer-grid {
-    display: grid;
-    grid-template-columns: 2fr 1fr 1fr 1.5fr; /* Wide brand and newsletter columns */
-    gap: 50px;
-    margin-bottom: 60px;
-  }
-  .footer-title {
-    font-size: 16px;
-    font-weight: 700;
-    text-transform: uppercase;
-    margin-bottom: 25px;
-    letter-spacing: 1px;
-  }
-  .footer-logo { max-width: 180px; margin-bottom: 20px; }
-  .footer-bio { line-height: 1.6; opacity: 0.8; margin-bottom: 20px; font-size: 14px; }
-  
-  .footer-links { list-style: none; padding: 0; margin: 0; }
-  .footer-links li { margin-bottom: 12px; }
-  .footer-links a { text-decoration: none; color: inherit; opacity: 0.7; transition: 0.3s; }
-  .footer-links a:hover { opacity: 1; padding-left: 5px; }
-
-  .footer-newsletter-form {
-    display: flex;
-    margin-top: 15px;
-    border-bottom: 2px solid currentColor;
-  }
-  .footer-newsletter-form input {
-    background: transparent;
-    border: none;
-    padding: 10px 0;
-    flex-grow: 1;
-    color: inherit;
-  }
-  .footer-newsletter-form button {
-    background: transparent;
-    border: none;
-    color: inherit;
-    font-weight: 700;
-    cursor: pointer;
-    text-transform: uppercase;
-  }
-
-  .footer-bottom {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding-top: 30px;
-    border-top: 1px solid rgba(0,0,0,0.05);
-    font-size: 13px;
-  }
-
-  @media (max-width: 992px) {
-    .footer-grid { grid-template-columns: 1fr 1fr; }
-  }
-  @media (max-width: 600px) {
-    .footer-grid { grid-template-columns: 1fr; text-align: center; }
-    .footer-newsletter-form { justify-content: center; }
-  }
-</style>
-
 {% schema %}
 {
-  "name": "Professional Footer",
+  "name": "Footer Section",
   "settings": [
-    { "type": "color", "id": "bg_color", "label": "Background Color", "default": "#f4f4f4" },
-    { "type": "color", "id": "text_color", "label": "Text Color", "default": "#121212" }
+    {
+      "type": "header",
+      "content": "Brand Identity"
+    },
+    {
+      "type": "text",
+      "id": "brand_name",
+      "label": "Brand Name",
+      "default": "TechNova"
+    },
+    {
+      "type": "text",
+      "id": "brand_tagline",
+      "label": "Brand Tagline",
+      "default": "Transforming ideas into digital reality"
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background Color",
+      "default": "#111111"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "header",
+      "content": "Social Media Links",
+      "info": "Icons will only appear if a URL is provided."
+    },
+    {
+      "type": "url",
+      "id": "social_facebook",
+      "label": "Facebook URL"
+    },
+    {
+      "type": "url",
+      "id": "social_instagram",
+      "label": "Instagram URL"
+    },
+    {
+      "type": "url",
+      "id": "social_linkedin",
+      "label": "LinkedIn URL"
+    },
+    {
+      "type": "url",
+      "id": "social_twitter",
+      "label": "X (Twitter) URL"
+    }
   ],
   "blocks": [
     {
-      "type": "footer_info",
-      "name": "Brand Info",
-      "limit": 1,
+      "type": "footer_column",
+      "name": "Footer Column",
       "settings": [
-        { "type": "image_picker", "id": "footerlogo", "label": "Logo" },
-        { "type": "textarea", "id": "bio_text", "label": "Bio", "default": "Your brand story here." },
-        { "type": "checkbox", "id": "show_social", "label": "Show Social Icons", "default": true }
-      ]
-    },
-    {
-      "type": "link_list",
-      "name": "Menu",
-      "settings": [
-        { "type": "text", "id": "heading", "label": "Heading", "default": "Quick Links" },
-        { "type": "link_list", "id": "menu", "label": "Choose Menu" }
-      ]
-    },
-    {
-      "type": "newsletter",
-      "name": "Newsletter",
-      "limit": 1,
-      "settings": [
-        { "type": "text", "id": "heading", "label": "Heading", "default": "Newsletter" },
-        { "type": "text", "id": "subtext", "label": "Subtext", "default": "Get updates on new drops." }
+        {
+          "type": "text",
+          "id": "column_title",
+          "label": "Column Title",
+          "default": "Quick Links"
+        },
+        {
+          "type": "header",
+          "content": "Link 1"
+        },
+        {
+          "type": "text",
+          "id": "link1",
+          "label": "Text",
+          "default": "Link 1"
+        },
+        {
+          "type": "url",
+          "id": "link1_url",
+          "label": "URL"
+        },
+        {
+          "type": "header",
+          "content": "Link 2"
+        },
+        {
+          "type": "text",
+          "id": "link2",
+          "label": "Text",
+          "default": "Link 2"
+        },
+        {
+          "type": "url",
+          "id": "link2_url",
+          "label": "URL"
+        },
+        {
+          "type": "header",
+          "content": "Link 3"
+        },
+        {
+          "type": "text",
+          "id": "link3",
+          "label": "Text",
+          "default": "Link 3"
+        },
+        {
+          "type": "url",
+          "id": "link3_url",
+          "label": "URL"
+        },
+        {
+          "type": "header",
+          "content": "Link 4"
+        },
+        {
+          "type": "text",
+          "id": "link4",
+          "label": "Text",
+          "default": "Link 4"
+        },
+        {
+          "type": "url",
+          "id": "link4_url",
+          "label": "URL"
+        }
       ]
     }
   ],
   "presets": [
     {
-      "name": "Professional Footer",
+      "name": "Footer Section",
+      "category": "Custom Sections",
       "blocks": [
-        { "type": "footer_info" },
-        { "type": "link_list" },
-        { "type": "newsletter" }
+        {
+          "type": "footer_column"
+        },
+        {
+          "type": "footer_column"
+        }
       ]
     }
   ]
 }
 {% endschema %}
+
+<style>
+  /* Local Scoped CSS for this section */
+  #shopify-section-{{ section.id }} .footer-links {
+    list-style: none; /* Removes bullets */
+    padding: 0;
+    margin: 0;
+  }
+  
+  #shopify-section-{{ section.id }} .footer-links li {
+    margin-bottom: 8px;
+  }
+
+  /* Ensures links take the color setting, not browser default blue */
+  #shopify-section-{{ section.id }} .footer-links a {
+    color: inherit; 
+    text-decoration: none;
+    opacity: 0.8;
+    transition: opacity 0.2s;
+  }
+
+  #shopify-section-{{ section.id }} .footer-links a:hover {
+    opacity: 1;
+    text-decoration: underline;
+  }
+  #shopify-section-{{ section.id }} .social-icon-link {
+    color: {{ section.settings.text_color }};
+    opacity: 0.8;
+    transition: transform 0.2s, opacity 0.2s;
+    display: inline-block;
+  }
+
+  #shopify-section-{{ section.id }} .social-icon-link:hover {
+    opacity: 1;
+    transform: translateY(-3px);
+  }
+</style>
+
+<footer class="footer" style="background-color: {{ section.settings.bg_color }}; color: {{ section.settings.text_color }}; padding: 40px 0;">
+  <div class="page-width container" style="margin: 0 auto; max-width: 1200px; padding: 0 20px;">
+    <div class="footer-top" style="display: flex; flex-wrap: wrap; gap: 40px; justify-content: space-between;">
+      
+      <div class="footer-brand" style="flex: 1 1 300px;">
+  <h3 style="margin-top: 0;">{{ section.settings.brand_name }}</h3>
+  <p>{{ section.settings.brand_tagline }}</p>
+
+  <div class="footer-social-wrapper" style="margin-top: 20px;">
+    <h4 style="margin-bottom: 12px; font-size: 1.1rem;">Connect with us</h4>
+    <div class="social-icons" style="display: flex; gap: 15px;">
+      
+      {% if section.settings.social_facebook != blank %}
+        <a href="{{ section.settings.social_facebook }}" class="social-icon-link" aria-label="Facebook">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.04c-5.5 0-10 4.49-10 10.02 0 5 3.66 9.15 8.44 9.9v-7h-2.54v-2.9h2.54V9.85c0-2.51 1.49-3.89 3.78-3.89 1.09 0 2.23.19 2.23.19v2.47h-1.26c-1.24 0-1.63.77-1.63 1.56v1.88h2.78l-.45 2.9h-2.33v7a10 10 0 008.44-9.9c0-5.53-4.5-10.02-10-10.02z"/></svg>
+        </a>
+      {% endif %}
+
+      {% if section.settings.social_instagram != blank %}
+        <a href="{{ section.settings.social_instagram }}" class="social-icon-link" aria-label="Instagram">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M7.8 2h8.4C19.4 2 22 4.6 22 7.8v8.4a5.8 5.8 0 0 1-5.8 5.8H7.8C4.6 22 2 19.4 2 16.2V7.8A5.8 5.8 0 0 1 7.8 2m-.2 2A3.6 3.6 0 0 0 4 7.6v8.8C4 18.39 5.61 20 7.6 20h8.8a3.6 3.6 0 0 0 3.6-3.6V7.6C20 5.61 18.39 4 16.4 4H7.6m9.65 1.5a1.25 1.25 0 0 1 1.25 1.25A1.25 1.25 0 0 1 17.25 8 1.25 1.25 0 0 1 16 6.75a1.25 1.25 0 0 1 1.25-1.25M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3z"/></svg>
+        </a>
+      {% endif %}
+
+      {% if section.settings.social_linkedin != blank %}
+        <a href="{{ section.settings.social_linkedin }}" class="social-icon-link" aria-label="LinkedIn">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.32 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.79M6.88 8.56a1.68 1.68 0 0 0 1.68-1.68c0-.93-.75-1.69-1.68-1.69a1.69 1.69 0 0 0-1.69 1.69c0 .93.76 1.68 1.69 1.68m1.39 9.94v-8.37H5.5v8.37h2.77z"/></svg>
+        </a>
+      {% endif %}
+
+    </div>
+  </div>
+</div>
+
+      {% for block in section.blocks %}
+        <div class="footer-column" style="flex: 1 1 150px;">
+          {% if block.settings.column_title != blank %}
+            <h4 style="margin-top: 0;">{{ block.settings.column_title }}</h4>
+          {% endif %}
+          
+          <ul class="footer-links">
+            {% if block.settings.link1 != blank %}
+              <li>
+                {% if block.settings.link1_url != blank %}
+                  <a href="{{ block.settings.link1_url }}">{{ block.settings.link1 }}</a>
+                {% else %}
+                  <span>{{ block.settings.link1 }}</span>
+                {% endif %}
+              </li>
+            {% endif %}
+
+            {% if block.settings.link2 != blank %}
+              <li>
+                {% if block.settings.link2_url != blank %}
+                  <a href="{{ block.settings.link2_url }}">{{ block.settings.link2 }}</a>
+                {% else %}
+                  <span>{{ block.settings.link2 }}</span>
+                {% endif %}
+              </li>
+            {% endif %}
+
+            {% if block.settings.link3 != blank %}
+              <li>
+                {% if block.settings.link3_url != blank %}
+                  <a href="{{ block.settings.link3_url }}">{{ block.settings.link3 }}</a>
+                {% else %}
+                  <span>{{ block.settings.link3 }}</span>
+                {% endif %}
+              </li>
+            {% endif %}
+
+            {% if block.settings.link4 != blank %}
+              <li>
+                {% if block.settings.link4_url != blank %}
+                  <a href="{{ block.settings.link4_url }}">{{ block.settings.link4 }}</a>
+                {% else %}
+                  <span>{{ block.settings.link4 }}</span>
+                {% endif %}
+              </li>
+            {% endif %}
+          </ul>
+        </div>
+      {% endfor %}
+    </div>
+
+    <div class="footer-bottom" style="text-align: center; margin-top: 40px; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 20px;">
+      <p style="font-size: 0.9em; opacity: 0.7;">&copy; {{ 'now' | date: '%Y' }} {{ section.settings.brand_name }}. All rights reserved.</p>
+    </div>
+  </div>
+</footer>
