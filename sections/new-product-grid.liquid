@@ -1,42 +1,191 @@
 <div class="collection-filter">
-    <div class="filter">
-        <div class="switch">
-            <button type="button" class="twocol active">
-                <img src="{{double-column.png | asset_url}}" alt="two column" class="twocol">
-            </button>
-
-            <button type="button" class="defaultcol">
-                <img src="{{default-column.png |  asset_url}}" alt="default column" class="defaultcol">
-            </button>
-
-              <button type="button" class="singlecol">
-                <img src="{{single-column.png |  asset_url}}" alt="single column" class="singlecol">
-            </button>
-
-        </div>
-        <div class="total-product">
-            <span>{{collection.all_products_count}} {{collection.all_products_count |  pluralize: 'product', 'products' }}</span>
-        </div>
-        <div class="sort-by">
-            {%-  assign  sort_by = collection.sort_by | default: collection.default_sort_by  %}
-            <span class="dropdown-filter">
-                {%- if sort_by == 'manual'-%}
-                    Featured
-                    {%- else -%}
-                        {{sort_by |replace: '-', ' ' }}
-                        {%-endif -%}
-            </span>
-
-            <ul class="hide">
-                {% for option in collection.sort_options %}
-                    <a href="?sort_by={{option.value}}">
-                        <li class="liclass_{% if collection.sort_by == option.value %}active{% endif %}">
-                        {{option.name}}
-                        </li>
-                    </a>
-                    {%endfor%}
-
-            </ul>
-        </div>
+  <div class="filter">
+    <div class="switch">
+      <button type="button" class="twocol active">
+        <img src="{{ 'double-column.png' | asset_url }}" alt="two column">
+      </button>
+      <button type="button" class="defaultcol">
+        <img src="{{ 'single-column.png' | asset_url }}" alt="default column">
+      </button>
+      <button type="button" class="singlecol">
+        <img src="{{ 'list.png' | asset_url }}" alt="single column">
+      </button>
     </div>
+
+    <div class="total-product">
+      <span>{{ collection.all_products_count }} {{ collection.all_products_count | pluralize: 'product', 'products' }}</span>
+    </div>
+
+    <div class="sort-by">
+      {%- assign sort_by = collection.sort_by | default: collection.default_sort_by -%}
+      
+      <span class="dropdown-filter" style="cursor: pointer;">
+        {%- if sort_by == "manual" -%}
+          Featured
+        {%- else -%}
+          {{ sort_by | replace: '-', ' ' | capitalize }}
+        {%- endif -%}
+      </span>
+
+      <ul class="sort-dropdown-list hide">
+        {% for option in collection.sort_options %}
+          <li class="{% if sort_by == option.value %}active{% endif %}">
+            <a href="?sort_by={{ option.value }}">{{ option.name }}</a>
+          </li>
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
 </div>
+
+<div id="product-grid" class="grid-2-col">
+  {% for product in collection.products %}
+    <div class="product-card">
+      <div class="product-image">
+        <a href="{{ product.url }}">
+          <img src="{{ product.featured_image | img_url: '600x' }}" alt="{{ product.title }}" loading="lazy">
+        </a>
+      </div>
+      <div class="product-info">
+        <h3>{{ product.title }}</h3>
+        <p>{{ product.price | money }}</p>
+      </div>
+    </div>
+  {% else %}
+    <p>No products found.</p>
+  {% endfor %}
+</div>
+
+<style>
+/* Layout Styling */
+.collection-filter .filter {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 0;
+  border-bottom: 1px solid #e8e8e8;
+  margin-bottom: 30px;
+}
+
+/* Grid Logic */
+#product-grid {
+  display: grid;
+  gap: 20px;
+  transition: opacity 0.2s ease-in-out;
+}
+
+.grid-1-col { grid-template-columns: 1fr; }
+.grid-2-col { grid-template-columns: repeat(2, 1fr); }
+.grid-3-col { grid-template-columns: repeat(3, 1fr); }
+
+/* Switch Buttons */
+.switch button {
+  background: none;
+  border: 1px solid #ddd;
+  padding: 8px;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: 0.3s;
+}
+
+.switch button.active {
+  background: #f4f4f4;
+  border-color: #000;
+}
+
+.switch img { width: 20px; height: 20px; display: block; }
+
+/* Sort Dropdown */
+.sort-by { position: relative; }
+.dropdown-filter { 
+    display: inline-block;
+    padding: 5px 15px; 
+    border: 1px solid #ddd; 
+    border-radius: 4px; 
+    background: #fff;
+}
+
+.sort-dropdown-list {
+  position: absolute;
+  right: 0;
+  top: 110%;
+  background: #fff;
+  border: 1px solid #ddd;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  z-index: 100;
+  min-width: 200px;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.sort-dropdown-list li {
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.sort-dropdown-list li a {
+  display: block;
+  padding: 10px 15px;
+  text-decoration: none;
+  color: #333;
+  font-size: 14px;
+}
+
+.sort-dropdown-list li:hover { background: #f9f9f9; }
+.sort-dropdown-list li.active { background: #f4f4f4; font-weight: bold; }
+.hide { display: none; }
+
+/* Product Card Basic Styling */
+.product-card { border: 1px solid #eee; padding: 10px; text-align: center; }
+.product-card img { max-width: 100%; height: auto; }
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .grid-3-col { grid-template-columns: repeat(2, 1fr); }
+}
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const grid = document.getElementById('product-grid');
+  const buttons = document.querySelectorAll('.switch button');
+  const dropdownFilter = document.querySelector('.dropdown-filter');
+  const sortByUl = document.querySelector('.sort-dropdown-list');
+
+  // Column Switching Logic
+  buttons.forEach(btn => {
+    btn.addEventListener('click', function() {
+      // Toggle button active states
+      buttons.forEach(b => b.classList.remove('active'));
+      this.classList.add('active');
+
+      // Change Grid Classes
+      grid.classList.remove('grid-1-col', 'grid-2-col', 'grid-3-col');
+      
+      if (this.classList.contains('singlecol')) {
+        grid.classList.add('grid-1-col');
+      } else if (this.classList.contains('twocol')) {
+        grid.classList.add('grid-2-col');
+      } else if (this.classList.contains('defaultcol')) {
+        grid.classList.add('grid-3-col');
+      }
+    });
+  });
+
+  // Sort Dropdown Toggle
+  if (dropdownFilter && sortByUl) {
+    dropdownFilter.addEventListener('click', function(e) {
+      e.preventDefault();
+      sortByUl.classList.toggle('hide');
+      e.stopPropagation();
+    });
+
+    // Close dropdown when clicking outside
+    document.addEventListener('click', function(e) {
+      if (!sortByUl.contains(e.target) && !dropdownFilter.contains(e.target)) {
+        sortByUl.classList.add('hide');
+      }
+    });
+  }
+});
+</script>
